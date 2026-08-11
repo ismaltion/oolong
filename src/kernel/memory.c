@@ -153,7 +153,26 @@ void kfree(void* ptr) {
 }
 
 void *krealloc(void* ptr, u64 size) {
-    void* value = kmalloc(size);
-    if (value) kfree(ptr);
-    return value;
+    size = (size + 7) & ~7ULL;
+    if (!ptr) return kmalloc(size);
+    if (size == 0) { kfree(ptr); return NULL; }
+
+    struct block* block = ((struct block*)ptr ) - 1;
+    if (block->size >= size) {
+        if (block->size >= size + sizeof(struct block) + MIN_BLOCK_SIZE) split(block, size);
+        return ptr;
+    }
+    if (block->next && block->next->free && block->size + sizeof(struct block) + block->next->size >= size) {
+        block->size += sizeof(struct block) + block->next->size;
+        block->next = block->next->next;
+        if (block->size >= size + sizeof(struct block) + MIN_BLOCK_SIZE) split(block, size);
+        return ptr;
+    }
+
+    void* new_ptr = kmalloc(size);
+    if (!new_ptr) return NULL;
+    memcpy(new_ptr, ptr, block->size);
+    kfree(ptr);
+
+    return new_ptr;
 }

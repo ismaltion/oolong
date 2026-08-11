@@ -19,8 +19,6 @@ struct terminal {
     struct cell* content;
 };
 
-struct terminal output_terminals[MAX_TERMINALS];
-
 void console_init();
 u32 create_terminal(u16 cols, u16 rows);
 void delete_terminal(u32 id);

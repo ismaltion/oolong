@@ -6,24 +6,24 @@
 #include "console.h"
 
 enum device_type {
-    UNKNOWN,
-    MONITOR,
-    KEYBOARD,
-    DISK
+    DEV_TYPE_UNKNOWN,
+    DEV_TYPE_MONITOR,
+    DEV_TYPE_KEYBOARD,
+    DEV_TYPE_DISK
 };
 
 enum connection_type {
-    UNKNOWN,
-    VIRTUAL,
-    PS2,
-    VGA,
-    ATA
+    CONN_TYPE_UNKNOWN,
+    CONN_TYPE_VIRTUAL,
+    CONN_TYPE_PS2,
+    CONN_TYPE_VGA,
+    CONN_TYPE_ATA
 };
 
 enum disk_partition_type {
-    UNKNOWN,
-    MBR,
-    GPT
+    PART_TYPE_UNKNOWN,
+    PART_TYPE_MBR,
+    PART_TYPE_GPT
 };
 
 struct monitor_properties {

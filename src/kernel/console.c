@@ -3,6 +3,8 @@
 #include "../lib/stddef.h"
 #include "memory.h"
 
+struct terminal output_terminals[MAX_TERMINALS];
+
 // Init
 
 void console_init() {

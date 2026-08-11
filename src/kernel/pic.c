@@ -5,10 +5,6 @@
 #define PIC1        0x20
 #define PIC2        0xA0
 
-void io_wait() {
-    outb(0x80, 0);
-}
-
 void pic_remap(u8 offset_1, u8 offset_2) {
     outb(PIC1, 0x10 | 1);
     io_wait();

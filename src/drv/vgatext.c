@@ -1,5 +1,7 @@
 #include "vgatext.h"
 #include "../lib/stdint.h"
+#include "../kernel/memory.h"
+#include "../kernel/io.h"
 
 #define VGATEXT_ADDR ((u8*)0xB8000)
 
@@ -17,4 +19,25 @@ void vgatext_clear() {
     {
         VGATEXT_ADDR[i] = 0;
     }
+}
+
+void vgatext_load(void* target) {
+    memcpy(VGATEXT_ADDR, target, VGATEXT_WIDTH * VGATEXT_HEIGHT * 2);
+}
+
+void vgatext_update_cursor(u8 cx, u8 cy)
+{
+    u32 cursor_pos = cy * 80 + cx;
+
+    outb(0x3D4, 0x0A);
+    outb(0x3D5, (inb(0x3D5) & 0xC0) | 14);
+
+    outb(0x3D4, 0x0B);
+    outb(0x3D5, (inb(0x3D5) & 0xE0) | 15);
+
+    outb(0x3D4, 0x0E);
+    outb(0x3D5, (u8)((cursor_pos >> 8) & 0xFF));
+
+    outb(0x3D4, 0x0F);
+    outb(0x3D5, (u8)(cursor_pos & 0xFF));
 }

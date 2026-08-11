@@ -20,3 +20,7 @@ u16 inw(u16 port) {
 void outw(u16 port, u16 value) {
     __asm__ volatile("outw %0, %1" : : "a"(value), "Nd"(port));
 }
+
+void io_wait() {
+    outb(0x80, 0);
+}

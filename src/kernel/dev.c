@@ -5,6 +5,9 @@
 
 extern struct terminal output_terminals[MAX_TERMINALS];
 
+struct device devices[MAX_DEVICES];
+u32 total_devices = 0;
+
 void devices_init() {
     memset(devices, 0, sizeof(devices));
 }

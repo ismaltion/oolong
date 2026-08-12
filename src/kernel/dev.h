@@ -46,9 +46,9 @@ struct device {
     bool in_use;
 };
 
-struct device devices[MAX_DEVICES];
-u32 total_devices = 0;
-
+void devices_init();
 u32 register_device(enum device_type type, enum connection_type con_type);
+u8 monitor_refresh(u32 device_id);
+u8 monitor_change_current_terminal(u32 device_id, u32 terminal_id);
 
 #endif

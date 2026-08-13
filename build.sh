@@ -2,33 +2,40 @@ rm -r bin
 rm src/bootloader/size.asm
 mkdir bin
 
+# Lib
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/lib/memory.c -o bin/lib_memory.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/lib/string.c -o bin/lib_string.o
+
 # Kernel drivers
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/drv/vgatext.c -o bin/kdrv_vgatext.o
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/drv/pit.c -o bin/kdrv_pit.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/drv/vgatext.c -o bin/kdrv_vgatext.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/drv/pit.c -o bin/kdrv_pit.o
 
-# Kernel
+# Kernel 
 nasm src/kernel/entry.asm -f elf -o bin/kernel_entry.o
-
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/kernel/main.c -o bin/kernel_main.o
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/kernel/memory.c -o bin/kernel_memory.o
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/kernel/idt.c -o bin/kernel_idt.o
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/kernel/dev.c -o bin/kernel_dev.o
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/kernel/console.c -o bin/kernel_console.o
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/kernel/pic.c -o bin/kernel_pic.o
-clang --target=i386-unknown-none -ffreestanding -m32 -fno-pie -c src/kernel/io.c -o bin/kernel_io.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/main.c -o bin/kernel_main.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/heap.c -o bin/kernel_heap.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/bugcheck.c -o bin/kernel_bugcheck.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/idt.c -o bin/kernel_idt.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/dev.c -o bin/kernel_dev.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/console.c -o bin/kernel_console.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/pic.c -o bin/kernel_pic.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/io.c -o bin/kernel_io.o
 
 i386-elf-ld -m elf_i386 -T src/kernel_linker.ld \
     -o "./bin/kernel.elf" \
     "bin/kernel_entry.o" \
     "bin/kernel_main.o" \
-    "bin/kernel_memory.o" \
+    "bin/kernel_heap.o" \
+    "bin/kernel_bugcheck.o" \
     "bin/kernel_idt.o" \
     "bin/kernel_dev.o" \
     "bin/kernel_console.o" \
     "bin/kernel_io.o" \
     "bin/kernel_pic.o" \
     "bin/kdrv_pit.o" \
-    "bin/kdrv_vgatext.o"
+    "bin/kdrv_vgatext.o" \
+    "bin/lib_memory.o" \
+    "bin/lib_string.o"
 
 # Bootloader (scuffed af, needs size of kernel bruhhh lol)
 

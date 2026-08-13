@@ -1,10 +1,13 @@
 #include "console.h"
-#include "../drv/vgatext.h"
-#include "../lib/stddef.h"
-#include "memory.h"
+#include "heap.h"
 #include "dev.h"
 
+#include "../drv/vgatext.h"
+#include "../lib/stddef.h"
+#include "../lib/memory.h"
+
 struct terminal output_terminals[MAX_TERMINALS];
+extern struct device devices[MAX_DEVICES];
 
 // Init
 
@@ -109,8 +112,24 @@ void terminal_putchar(const u32 terminal_id, const char chara, const u8 color) {
     }
 }
 
-void terminal_print(u32 terminal_id, const char* string) {
+u8 terminal_print(u32 terminal_id, const char* string, u8 color) {
+    if (!output_terminals[terminal_id].in_use) return 1;
     for (u32 i = 0; string[i] != 0; i++) {
-        terminal_putchar(terminal_id, string[i], 0x07);
+        terminal_putchar(terminal_id, string[i], color);
     }
+    return 0;
+}
+
+void print(const char* string) {
+    for (u32 i = 0; i < MAX_TERMINALS; i++) {
+        terminal_print(i, string, 0x07);
+    }
+    refresh_all_monitors();
+}
+
+void printc(const char* string, u8 color) {
+    for (u32 i = 0; i < MAX_TERMINALS; i++) {
+        terminal_print(i, string, color);
+    }
+    refresh_all_monitors();
 }

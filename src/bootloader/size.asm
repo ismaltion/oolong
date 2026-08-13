@@ -1,1 +1,1 @@
-%define KERNEL_SIZE 14
+%define KERNEL_SIZE 17

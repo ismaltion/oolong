@@ -1,10 +1,11 @@
 #include "../lib/stdint.h"
 #include "../drv/vgatext.h"
 
-#include "memory.h"
+#include "heap.h"
 #include "console.h"
 #include "dev.h"
 #include "idt.h"
+#include "bugcheck.h"
 
 void kmain(u8 memory_map_location) {
     memory_init(memory_map_location);
@@ -16,6 +17,7 @@ void kmain(u8 memory_map_location) {
     u32 monitor_id = register_device(DEV_TYPE_MONITOR, CONN_TYPE_VGA);
     monitor_change_current_terminal(monitor_id, terminal_id);
 
-    terminal_print(terminal_id, "If you can see this, then the Oolong OS kernel works correctly as it should.\nEnjoy the text I guess, also note this bug: the cursor can't be seen anywhere,\nit should be here ->");
-    monitor_refresh(monitor_id);
+    print("If you can see this, then the Oolong OS kernel works correctly as it should.\nEnjoy the text I guess, also note this bug: the cursor can't be seen anywhere,\nit should be here ->");
+
+    KBUGCHK(KBUGCHK_MANUALLY_TRIGGERED);
 }

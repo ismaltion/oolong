@@ -1,5 +1,6 @@
-#include "memory.h"
+#include "bugcheck.h"
 #include "../lib/stddef.h"
+#include "../lib/memory.h"
 
 #define MEMORY_MAP_ADDR 0x500
 #define MIN_BLOCK_SIZE 8
@@ -26,47 +27,6 @@ u64 available_memory = 0;
 struct mmap_entry* memory_map = (struct mmap_entry*)MEMORY_MAP_ADDR;
 
 struct block* free_list;
-
-
-// --- Memory utils ---
-
-void memset(void* dest, u8 val, u64 size) {
-    u8* ptr = (u8*)dest;
-    for (u64 i = 0; i < size; i++)
-    {
-        ptr[i] = val;   
-    }
-}
-
-void memcpy(void* dest, const void* src, u64 size) {
-    u8* d_ptr = (u8*)dest;
-    const u8* s_ptr = (const u8*)src;
-    
-    for (u64 i = 0; i < size; i++)
-    {
-        d_ptr[i] = s_ptr[i];
-    }
-}
-
-bool memeq(const void *mem1, const void *mem2, u64 limit) {
-    if (mem1 == NULL || mem2 == NULL) {
-        return mem1 == mem2;
-    }
-
-    const u8 *p1 = (const u8 *)mem1;
-    const u8 *p2 = (const u8 *)mem2;
-
-    for (u64 i = 0; i < limit; ++i) {
-        if (p1[i] != p2[i]) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-
-// --- Actual memory management ---
 
 u8 memory_init(u16 mmap_length) {
     for (u64 i = 0; i < mmap_length; i++) {
@@ -121,7 +81,11 @@ void* kmalloc(u64 size) {
     if (size == 0) return NULL;
     struct block* block = find_block(size = (size + 7) & ~7ULL);
 
-    if (!block) return NULL;
+    if (!block) {
+        // uh oh
+        KBUGCHK(KBUGCHK_INSUFFICIENT_KERNEL_MEMORY);
+        return NULL;
+    }
     if (block->size >= size + sizeof(struct block) + MIN_BLOCK_SIZE) split(block, size);
 
     block->free = false;

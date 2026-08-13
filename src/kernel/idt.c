@@ -21,6 +21,9 @@ struct idt_entry idt[256];
 struct idt_pointer idtp;
 
 extern void load_idt(void *);
+
+extern void double_fault_stub();
+
 extern void default_irq_stub();
 extern void timer_stub();
 
@@ -43,6 +46,10 @@ void idt_init() {
     for (u16 i = 0; i < 256; i++)
         idt_set_gate(i, (u64)default_irq_stub, 0x08, 0b10001110);
 
+    // Faults
+    idt_set_gate(8, (u64)double_fault_stub, 0x08, 0b10001110);
+
+    // PIC
     idt_set_gate(32, (u64)timer_stub, 0x08, 0b10001110);
 
     pit_init(1000);

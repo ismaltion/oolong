@@ -2,9 +2,7 @@
 
 global _start
 global load_idt
-global default_irq_stub
 global timer_ticks
-global timer_stub
 extern kmain
 
 section .text
@@ -25,16 +23,7 @@ section .text
         sti
         ret
 
-    default_irq_stub:
-        mov al, 0x20
-        out 0x20, al
-        iretd
-
-    timer_stub:
-        mov al, 0x20
-        out 0x20, al
-        inc dword [timer_ticks]
-        iretd
+    %include "src/kernel/stubs.asm"
 
 section .data
     timer_ticks:

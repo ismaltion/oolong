@@ -1,6 +1,6 @@
 #include "vgatext.h"
 #include "../lib/stdint.h"
-#include "../kernel/memory.h"
+#include "../lib/memory.h"
 #include "../kernel/io.h"
 
 #define VGATEXT_ADDR ((u8*)0xB8000)

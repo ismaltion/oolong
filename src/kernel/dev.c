@@ -1,6 +1,8 @@
 #include "dev.h"
+#include "heap.h"
+
 #include "../lib/stddef.h"
-#include "memory.h"
+#include "../lib/memory.h"
 #include "../drv/vgatext.h"
 
 extern struct terminal output_terminals[MAX_TERMINALS];
@@ -59,4 +61,10 @@ u8 monitor_change_current_terminal(u32 device_id, u32 terminal_id) {
 
     monitor_refresh(device_id);
     return 0;
+}
+
+void refresh_all_monitors() {
+    for (u32 i = 0; i < MAX_DEVICES; i++) {
+        if (devices[i].dtype == DEV_TYPE_MONITOR) monitor_refresh(i);
+    }
 }

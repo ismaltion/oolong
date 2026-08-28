@@ -31,5 +31,6 @@ struct page_table_entry {
 } __attribute__((packed));
 
 void load_page_directory(u32* page_directory);
+void setup_paging();
 
 #endif

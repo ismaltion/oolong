@@ -7,8 +7,10 @@
 #include "dev.h"
 #include "idt.h"
 #include "bugcheck.h"
+#include "paging.h"
 
 void kmain(u8 memory_map_location) {
+    setup_paging();
     memory_init(memory_map_location);
     idt_init();
     console_init();

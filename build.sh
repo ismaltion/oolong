@@ -20,6 +20,7 @@ clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/
 clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/console.c -o bin/kernel_console.o
 clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/pic.c -o bin/kernel_pic.o
 clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/io.c -o bin/kernel_io.o
+clang --target=i386-unknown-none  -nostdinc -ffreestanding -m32 -fno-pie -c src/kernel/paging.c -o bin/kernel_paging.o
 
 i386-elf-ld -m elf_i386 -T src/kernel_linker.ld \
     -o "./bin/kernel.elf" \
@@ -32,6 +33,7 @@ i386-elf-ld -m elf_i386 -T src/kernel_linker.ld \
     "bin/kernel_console.o" \
     "bin/kernel_io.o" \
     "bin/kernel_pic.o" \
+    "bin/kernel_paging.o" \
     "bin/kdrv_pit.o" \
     "bin/kdrv_vgatext.o" \
     "bin/lib_memory.o" \

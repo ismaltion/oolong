@@ -30,7 +30,7 @@ void define_page_table_entry(struct page_table_entry* pg_entry, bool is_user, u3
     pg_entry->addr_31_12 = address >> 12;
 }
 
-void setup_main_page_directory() {
+void setup_paging() {
     for (u32 i = 0; i < 1024; i++) {
         define_page_directory_entry(&main_page_directory[i], false, 0);
     }

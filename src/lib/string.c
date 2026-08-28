@@ -89,7 +89,7 @@ char *itoa(u32 num, char *string_1, u32 base) {
     }
 
     while (num != 0) {
-        int rem = num % base;
+        u32 rem = num % base;
         string_1[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
         num = num / base;
     }
@@ -98,8 +98,41 @@ char *itoa(u32 num, char *string_1, u32 base) {
 
     string_1[i] = '\0';
 
-    int start = 0;
-    int end = i - 1;
+    u32 start = 0;
+    u32 end = i - 1;
+    while (start < end) {
+        if (!(string_1 + start) || !(string_1 + end)) return 0;
+
+        char temp = *((string_1 + start));
+        *((string_1 + start)) = *((string_1 + end));
+        *((string_1 + end)) = temp;
+
+        start++;
+        end--;
+    }
+
+    return string_1;
+}
+
+char *itoa_hex(u32 num, char *string_1) {
+    u32 i = 0;
+
+    if (num == 0) {
+        string_1[i++] = '0';
+        string_1[i] = '\0';
+        return string_1;
+    }
+
+    while (num != 0) {
+        u32 rem = num % 16;
+        string_1[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
+        num = num / 16;
+    }
+
+    string_1[i] = '\0';
+
+    u32 start = 0;
+    u32 end = i - 1;
     while (start < end) {
         if (!(string_1 + start) || !(string_1 + end)) return 0;
 

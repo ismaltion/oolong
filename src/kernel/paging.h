@@ -12,7 +12,7 @@ struct page_directory_entry {
     u32 accessed        : 1;
     u32 dirty           : 1;
     u32 page_size       : 1;
-    u32 AVL             : 4;
+    u32 available       : 4;
     u32 addr_31_12      : 20;
 } __attribute__((packed));
 
@@ -24,9 +24,9 @@ struct page_table_entry {
     u32 page_cache_dis  : 1;
     u32 accessed        : 1;
     u32 dirty           : 1;
-    u32 page_size       : 1;
+    u32 page_attribute  : 1;
     u32 global          : 1;
-    u32 AVL             : 3;
+    u32 avl             : 3;
     u32 addr_31_12      : 20;
 } __attribute__((packed));
 

@@ -101,7 +101,7 @@ char *itoa(u32 num, char *string_1, u32 base) {
     int start = 0;
     int end = i - 1;
     while (start < end) {
-        if (!(string_1 + start) || !(string_1 + end)) return;
+        if (!(string_1 + start) || !(string_1 + end)) return 0;
 
         char temp = *((string_1 + start));
         *((string_1 + start)) = *((string_1 + end));

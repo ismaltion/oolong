@@ -2,6 +2,7 @@
 
 global _start
 global load_idt
+global load_page_directory
 global timer_ticks
 extern kmain
 
@@ -21,6 +22,11 @@ section .text
         mov eax, [esp + 4]
         lidt [eax]
         sti
+        ret
+
+    load_page_directory:
+        mov eax, [esp + 4]
+        mov cr3, eax
         ret
 
     %include "src/kernel/stubs.asm"

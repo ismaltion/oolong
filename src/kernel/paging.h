@@ -26,8 +26,10 @@ struct page_table_entry {
     u32 dirty           : 1;
     u32 page_attribute  : 1;
     u32 global          : 1;
-    u32 avl             : 3;
+    u32 available       : 3;
     u32 addr_31_12      : 20;
 } __attribute__((packed));
+
+void load_page_directory(u32* page_directory);
 
 #endif

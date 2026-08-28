@@ -23,4 +23,7 @@ void define_page_table_entry(struct page_table_entry* pg_entry, bool is_user, u3
     pg_entry->accessed = 0;
     pg_entry->dirty = 0;
     pg_entry->page_attribute = 0;
+    pg_entry->global = 0;
+    pg_entry->available = 0;
+    pg_entry->addr_31_12 = address >> 12;
 }

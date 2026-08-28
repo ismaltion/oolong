@@ -70,3 +70,23 @@ bool strneq(const char* string_1, const char* string_2, u32 limit) {
     }
     return true;
 }
+
+char itoa(u32 a, char *buf) {
+    u32 pos = 11;
+    buf[pos] = '\0';
+
+    if (a == 0) {
+        buf[--pos] = '0';
+        return buf[pos];
+    }
+
+    bool negative = a < 0;
+
+    if (!negative) a = -a;
+
+    while(a < 0) {
+        buf[--pos] = '0' - (a % 10);
+    }
+
+    return buf[pos];
+}

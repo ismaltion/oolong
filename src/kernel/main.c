@@ -1,5 +1,6 @@
 #include "../lib/stdint.h"
 #include "../drv/vgatext.h"
+#include "../lib/string.h"
 
 #include "heap.h"
 #include "console.h"
@@ -17,7 +18,17 @@ void kmain(u8 memory_map_location) {
     u32 monitor_id = register_device(DEV_TYPE_MONITOR, CONN_TYPE_VGA);
     monitor_change_current_terminal(monitor_id, terminal_id);
 
-    print("If you can see this, then the Oolong OS kernel works correctly as it should.\nEnjoy the text I guess, also note this bug: the cursor can't be seen anywhere,\nit should be here ->");
+    print("If you can see this, then the Oolong OS kernel works correctly as it should.\nEnjoy the text I guess, also note this bug: the cursor can't be seen anywhere,\nit should be here ->\n");
+    
+
+    u32 random_number = 2;
+    char buffer[20];
+    
+    itoa(random_number, buffer);
+
+    
+    print("itoa test: ");
+    print(buffer);
 
     KBUGCHK(KBUGCHK_MANUALLY_TRIGGERED);
 }

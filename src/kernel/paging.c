@@ -1,6 +1,8 @@
 #include "paging.h"
 #include "../lib/stddef.h"
 
+struct page_directory_entry main_page_directory[1024];
+
 void define_page_directory_entry(struct page_directory_entry* pg_entry, bool is_user, u32 address) {
     pg_entry->present = 1;
     pg_entry->read_write = 1;
@@ -26,4 +28,10 @@ void define_page_table_entry(struct page_table_entry* pg_entry, bool is_user, u3
     pg_entry->global = 0;
     pg_entry->available = 0;
     pg_entry->addr_31_12 = address >> 12;
+}
+
+void setup_main_page_directory() {
+    for (u32 i = 0; i < 1024; i++) {
+        define_page_directory_entry(&main_page_directory[i], false, 0);
+    }
 }

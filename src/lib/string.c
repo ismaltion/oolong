@@ -71,22 +71,41 @@ bool strneq(const char* string_1, const char* string_2, u32 limit) {
     return true;
 }
 
-char itoa(u32 a, char *buf) {
-    u32 pos = 11;
-    buf[pos] = '\0';
+// function made by cedkechat01
+char* itoa(u32 num, char* string_1, u32 size) {
+    // end of string pointer
+    int index = size - 1;
+    string_1[index] = '\0';
 
-    if (a == 0) {
-        buf[--pos] = '0';
-        return buf[pos];
+    // handle zero case
+    if (num == 0) {
+        index = index - 1;
+        string_1[index] = '0';
+        return &string_1[index];
     }
 
-    bool negative = a < 0;
+    // unsigned types cant be negative
+    bool negative = false;
 
-    if (!negative) a = -a;
-
-    while(a < 0) {
-        buf[--pos] = '0' - (a % 10);
+    if (num < 0) {
+        negative = true;
+        num = -num;
     }
 
-    return buf[pos];
+    // extract digits right-to-left
+    while (num > 0) {
+        u32 digit = num % 10; //get last digit
+        index = index - 1;    // move left in buffer
+        string_1[index] = '0' + digit; // convert to ASCII
+        num = num / 10;       // remove last digit
+    }
+
+    // add minus sign if needed
+    if (negative == true) {
+        index = index - 1;
+        string_1[index] = '-';
+    }
+
+    // return start of string
+    return &string_1[index];
 }

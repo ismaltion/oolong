@@ -21,14 +21,11 @@ void kmain(u8 memory_map_location) {
     print("If you can see this, then the Oolong OS kernel works correctly as it should.\nEnjoy the text I guess, also note this bug: the cursor can't be seen anywhere,\nit should be here ->\n");
     
 
-    u32 random_number = 2;
-    char buffer[20];
-    
-    itoa(random_number, buffer);
-
+    u32 random_number = 989123;
+    char string[20];
     
     print("itoa test: ");
-    print(buffer);
+    print(itoa(random_number, string, 5));
 
     KBUGCHK(KBUGCHK_MANUALLY_TRIGGERED);
 }

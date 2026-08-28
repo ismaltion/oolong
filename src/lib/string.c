@@ -109,3 +109,18 @@ char* itoa(u32 num, char* string_1, u32 size) {
     // return start of string
     return &string_1[index];
 }
+
+u32 atoi(const char *s) {
+    u32 i, n;
+
+    for (i = 0; s[i] == ' ' || (unsigned)s[i]-'\t' < 5; i++);
+
+    u32 sign = (s[i] == '-') ? -1 : 1;
+    if (s[i] == '+' || s[i] == '-')
+        i++;
+
+    for (n = 0; (unsigned)s[i]-'0' < 10; i++)
+        n = 10 * n + (s[i] - '0');
+
+    return sign * n;
+}

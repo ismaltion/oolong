@@ -10,7 +10,7 @@
 #include "paging.h"
 
 void kmain(u8 memory_map_location) {
-    setup_paging();
+    // setup_paging(); fixing later
     memory_init(memory_map_location);
     idt_init();
     console_init();
@@ -22,12 +22,14 @@ void kmain(u8 memory_map_location) {
 
     print("If you can see this, then the Oolong OS kernel works correctly as it should.\nEnjoy the text I guess, also note this bug: the cursor can't be seen anywhere,\nit should be here ->\n");
     
-
-    u32 random_number = 989123;
-    char string[20];
+    char* random_variable = "67676767";
     
-    print("itoa test: ");
-    print(itoa(random_number, string, 5));
+    char buffer[10];
+
+    u32 result = atoi(random_variable);
+
+    print("atoi test: ");
+    print(itoa(result, buffer, sizeof(buffer)));
 
     KBUGCHK(KBUGCHK_MANUALLY_TRIGGERED);
 }

@@ -11,5 +11,6 @@ void strncat(char* dest, const char* src, u32 limit); // Concatenates two string
 bool streq(const char* string_1, const char* string_2); // Returns true if two strings are equal, or false if they aren't.
 bool strneq(const char* string_1, const char* string_2, u32 limit); // Same as streq but with a length limit.
 char* itoa(u32 num, char* string_1, u32 size); // Converts u32 to array of chars.
+u32 atoi(const char *s); // Converts an array of chars to u32.
 
 #endif

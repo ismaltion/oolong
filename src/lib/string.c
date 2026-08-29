@@ -161,3 +161,11 @@ u32 atoi(const char *s) {
 
     return sign * n;
 }
+
+u32 atoi_hex(const char *s) {
+    if (strlen(s) > 2 && s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) {
+        return strtol(s + 2, NULL, 16);
+    } else {
+        return atoi(s);
+    }
+}

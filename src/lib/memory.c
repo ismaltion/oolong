@@ -3,8 +3,7 @@
 
 void memset(void* dest, u8 val, u64 size) {
     u8* ptr = (u8*)dest;
-    for (u64 i = 0; i < size; i++)
-    {
+    for (u64 i = 0; i < size; i++) {
         ptr[i] = val;   
     }
 }
@@ -13,8 +12,7 @@ void memcpy(void* dest, const void* src, u64 size) {
     u8* d_ptr = (u8*)dest;
     const u8* s_ptr = (const u8*)src;
     
-    for (u64 i = 0; i < size; i++)
-    {
+    for (u64 i = 0; i < size; i++) {
         d_ptr[i] = s_ptr[i];
     }
 }

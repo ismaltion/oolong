@@ -15,8 +15,7 @@ u8 vgatext_putchar(u8 chara, u8 color, u16 column, u16 row) {
 }
 
 void vgatext_clear() {
-    for (u32 i = 0; i <= VGATEXT_WIDTH * VGATEXT_HEIGHT * 2; i++)
-    {
+    for (u32 i = 0; i <= VGATEXT_WIDTH * VGATEXT_HEIGHT * 2; i++) {
         VGATEXT_ADDR[i] = 0;
     }
 }
@@ -25,8 +24,7 @@ void vgatext_load(void* target) {
     memcpy(VGATEXT_ADDR, target, VGATEXT_WIDTH * VGATEXT_HEIGHT * 2);
 }
 
-void vgatext_update_cursor(u8 cx, u8 cy)
-{
+void vgatext_update_cursor(u8 cx, u8 cy) {
     u32 cursor_pos = cy * 80 + cx;
 
     outb(0x3D4, 0x0A);

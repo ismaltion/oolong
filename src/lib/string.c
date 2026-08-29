@@ -71,7 +71,37 @@ bool strneq(const char* string_1, const char* string_2, u32 limit) {
     return true;
 }
 
-// function made by cedkechat01
+long strtol(const char *string_1, char **endptr, u32 base) {
+    u32 i = 0;
+    long n = 0;
+
+    if (string_1[i] == '-' || string_1[i] == '+')
+        i++;
+
+    for (; string_1[i]; i++) {
+        u32 c = string_1[i];
+
+        if (c >= '0' && c <= '9')
+            c -= '0';
+        else if (c >= 'a' && c <= 'f')
+            c -= 'a' - 10;
+        else if (c >= 'A' && c <= 'F')
+            c -= 'A' - 10;
+        else
+            break;
+
+        if (c >= base)
+            break;
+
+        n = n * base + c;
+    }
+
+    if (endptr)
+        *endptr = (char *)(string_1 + i);
+
+    return string_1[0] == '-' ? -n : n;
+}
+
 char *itoa(u32 num, char *string_1, u32 base) {
     u32 i = 0;
 
@@ -147,25 +177,25 @@ char *itoa_hex(u32 num, char *string_1) {
     return string_1;
 }
 
-u32 atoi(const char *s) {
+u32 atoi(const char *string_1) {
     u32 i, n;
 
-    for (i = 0; s[i] == ' ' || (unsigned)s[i]-'\t' < 5; i++);
+    for (i = 0; string_1[i] == ' ' || (unsigned)string_1[i]-'\t' < 5; i++);
 
-    u32 sign = (s[i] == '-') ? -1 : 1;
-    if (s[i] == '+' || s[i] == '-')
+    u32 sign = (string_1[i] == '-') ? -1 : 1;
+    if (string_1[i] == '+' || string_1[i] == '-')
         i++;
 
-    for (n = 0; (unsigned)s[i]-'0' < 10; i++)
-        n = 10 * n + (s[i] - '0');
+    for (n = 0; (unsigned)string_1[i]-'0' < 10; i++)
+        n = 10 * n + (string_1[i] - '0');
 
     return sign * n;
 }
 
-u32 atoi_hex(const char *s) {
-    if (strlen(s) > 2 && s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) {
-        return strtol(s + 2, NULL, 16);
+u32 atoi_hex(const char *string_1) {
+    if (strlen(string_1) > 2 && string_1[0] == '0' && (string_1[1] == 'x' || string_1[1] == 'X')) {
+        return strtol(string_1 + 2, NULL, 16);
     } else {
-        return atoi(s);
+        return atoi(string_1);
     }
 }

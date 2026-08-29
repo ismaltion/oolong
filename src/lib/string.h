@@ -12,7 +12,7 @@ bool streq(const char* string_1, const char* string_2); // Returns true if two s
 bool strneq(const char* string_1, const char* string_2, u32 limit); // Same as streq but with a length limit.
 char* itoa(u32 num, char* string_1, u32 size); // Converts u32 to array of chars.
 char* itoa_hex(u32 num, char *string_1); // Converts a u32 to a hexadecimal string.
-u32 atoi(const char *s); // Converts an array of chars to u32.
-u32 atoi_hex(const char *s);
+u32 atoi(const char *string_1); // Converts an array of chars to u32.
+u32 atoi_hex(const char *string_1);
 
 #endif

@@ -3,6 +3,7 @@
 global _start
 global load_idt
 global load_page_directory
+global enable_paging
 global timer_ticks
 extern kmain
 
@@ -27,6 +28,20 @@ section .text
     load_page_directory:
         mov eax, [esp + 4]
         mov cr3, eax
+        ret
+
+    enable_paging:
+        mov eax, cr0
+        or eax, 0x80000000
+        mov cr0, eax
+
+        mov eax, 0xC0000000
+        add esp, eax
+
+        lea eax, [.higher_half]
+        add eax, 0xC0000000
+        jmp eax
+    .higher_half:
         ret
 
     %include "src/kernel/stubs.asm"

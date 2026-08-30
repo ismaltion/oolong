@@ -4,6 +4,8 @@
 #include "../lib/stddef.h"
 #include "../lib/string.h"
 
+char permanent_buffer[16];
+
 void KBUGCHK_get_string_reason(const enum KBUGCHK_REASONS reason, char* buffer) {
     switch (reason)
     {
@@ -30,6 +32,15 @@ void KBUGCHK(const enum KBUGCHK_REASONS reason) {
     printc("\n\n[!] --- System bug check --- [!]\n", 0x04);
     printc("A critical system error has occurred: ", 0x06);
     printc(reason_str, 0x0f);
-    printc("\nSystem has halted. Shut it down or reboot manually.", 0x06);
+    printc("\nSystem has halted. Shut it down or reboot manually.\nESP: 0x", 0x06);
+
+    void *esp_val;
+
+    __asm__ __volatile__(
+        "movl %%esp, %0"
+        : "=r" (esp_val)
+    );
+
+    printc(itoa_hex((u32)esp_val, permanent_buffer), 0x06);
     __asm__ volatile("hlt;");
 }

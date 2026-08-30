@@ -8,9 +8,10 @@
 #include "idt.h"
 #include "bugcheck.h"
 #include "paging.h"
+#include "../lib/memory.h"
 
 void kmain(u8 memory_map_location) {
-    // setup_paging(); fixing later
+    setup_paging();
     memory_init(memory_map_location);
     idt_init();
     console_init();
@@ -21,15 +22,10 @@ void kmain(u8 memory_map_location) {
     monitor_change_current_terminal(monitor_id, terminal_id);
 
     print("If you can see this, then the Oolong OS kernel works correctly as it should.\nEnjoy the text I guess, also note this bug: the cursor can't be seen anywhere,\nit should be here ->\n");
-    
-    char* random_variable = "67676767";
-    
-    char buffer[10];
 
-    u32 result = atoi(random_variable);
-
-    print("atoi test: ");
-    print(itoa(result, buffer, sizeof(buffer)));
+    char buffer[20];
+    print("hex shit test: 0x");
+    print(itoa_hex(0x123F, buffer));
 
     KBUGCHK(KBUGCHK_MANUALLY_TRIGGERED);
 }
